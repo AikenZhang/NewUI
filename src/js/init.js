@@ -9,6 +9,6 @@ NewUI.prototype.init=function (config) {
 	me.extend(defaultConfig,config);
 	//判断是否渲染switch
 	if(defaultConfig.switch){
-		me.switch(me.getSwitch()).init();
+		me.getSwitch().init();
 	}
 }
