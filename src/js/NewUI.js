@@ -64,3 +64,49 @@ NewUI.prototype.getById=function(name){
 NewUI.prototype.getByClassName=function(className){
 	return document.querySelectorAll("."+this.className+className);
 }
+NewUI.prototype.hasClass=function(dom,className) {
+	var _class=dom.getAttribute("class");
+	if(_class.indexOf(className)>=0){
+		return true;
+	}
+	return false;
+}
+NewUI.prototype.addClass=function(dom,className){
+	var _class=dom.getAttribute("class");
+	if(!this.hasClass(dom,className)){
+		dom.classList.add(className);
+		return true;
+	}
+	return false;
+}
+NewUI.prototype.removeClass=function(dom,className){
+	var _class=dom.getAttribute("class");
+	if(this.hasClass(dom,className)){
+		dom.classList.remove(className);
+		return true;
+	}
+	console.warn(dom+"不包含"+className);
+	return false;
+}
+NewUI.prototype.children=function(parent,childName){
+	var children=parent.childNodes;
+	var childArry=[];
+	if(childName.indexOf("#")>=0){
+		children.forEach(function(item){
+			if(item.nodeType===1){
+				if(item.getAttribute("id").indexOf(childName)>=0){
+					return item;
+				}
+			}
+
+		})
+	}
+	children.forEach(function(item){
+		if(item.nodeType===1){
+			if(item.getAttribute("class").indexOf(childName)>=0){
+				return childArry.push(item);
+			}
+		}
+	})
+	return childArry;
+}

@@ -8,7 +8,22 @@
 </head>
 <body>
 	<h1>switch按钮</h1>
-	<div class="NewUI-switch NewUI-switch-active" id="switch">
+	<div class="NewUI-switch" id="switch" style="width:100px;">
+		<div class="NewUI-switch-handle"></div>
+	</div>
+		<div class="NewUI-switch">
+		<div class="NewUI-switch-handle"></div>
+	</div>
+		</div>
+		<div class="NewUI-switch">
+		<div class="NewUI-switch-handle"></div>
+	</div>
+		</div>
+		<div class="NewUI-switch">
+		<div class="NewUI-switch-handle"></div>
+	</div>
+		</div>
+		<div class="NewUI-switch">
 		<div class="NewUI-switch-handle"></div>
 	</div>
 	
@@ -16,7 +31,12 @@
 <script type="text/javascript" src="../../dist/js/NewUI.js"></script>
 <script type="text/javascript">
 	var a=new NewUI();
-	console.log(a.getSwitch("#switch").getWidth());
+	a.init();
+	a.getSwitch()[0].toggle(function(){
+		console.log("sss");
+	})
+	a.getSwitch()[0].on()
+
 </script>
 </body>
 </html>
