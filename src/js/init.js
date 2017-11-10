@@ -1,16 +1,11 @@
 NewUI.prototype.init=function (config) {
 	//初始化NewUI
-	//默认初始化属性
 	var defaultConfig={
-		switch:true
+		//默认初始化属性
 	}
-	var me=this;
-	//继承客户传递到配置
-	me.extend(defaultConfig,config);
-	//判断是否渲染switch
-	if(defaultConfig.switch){
-		me.getSwitch().forEach(function(item,index){
-			item.init();
-		})
-	}
+	//NewUI默认属性
+	this.namaspace='NewUI';
+	this.className=this.namaspace+'-';
+	//一些组件的默认属性
+	this.itemsConfig={};
 }

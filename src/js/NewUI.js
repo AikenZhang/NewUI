@@ -1,9 +1,6 @@
-var NewUI=function(config){
-	//NewUI默认属性
-	this.namaspace='NewUI';
-	this.className=this.namaspace+'-';
-	//一些组件的默认属性
-	this.itemsConfig={};
+var NewUI=function(domName){
+	this.domName=domName;
+	this.init()
 }
 NewUI.prototype.extend=function(){ //from jquery2
 			var options, name, src, copy, copyIsArray, clone,

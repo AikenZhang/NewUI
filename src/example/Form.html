@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>switch按钮</h1>
-	<div class="NewUI-switch" id="switch" style="width:100px;">
+	<div class="NewUI-switch aa" style="width:100px;">
 		<div class="NewUI-switch-handle"></div>
 	</div>
 		<div class="NewUI-switch">
@@ -30,13 +30,11 @@
 
 <script type="text/javascript" src="../../dist/js/NewUI.js"></script>
 <script type="text/javascript">
-	var a=new NewUI();
-	a.init();
-	a.getSwitch()[0].toggle(function(){
-		console.log("sss");
-	})
-	a.getSwitch()[0].on()
-
+var s=new NewUI(".aa").getSwitch();
+	s[0].toggle(function(a){
+		console.log(a)
+	});
+	//console.log(document.querySelectorAll(".aa"))
 </script>
 </body>
 </html>

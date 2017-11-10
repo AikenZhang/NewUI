@@ -1,6 +1,6 @@
 
 //获取switch对象
-NewUI.prototype.getSwitch=function(name){
+NewUI.prototype.getSwitch=function(){
 	var me=this;
 	var _switch=function(dom){
 		if(!dom){
@@ -12,7 +12,8 @@ NewUI.prototype.getSwitch=function(name){
 		this.height=dom.offsetHeight;
 		this.active=false;
 		//回调函数
-		this.callBack=null;
+		this.callBack=function(){};
+		this.init();
 	}
 	_switch.prototype.init=function(){
 		var item=this.element;
@@ -40,22 +41,23 @@ NewUI.prototype.getSwitch=function(name){
 			me.children(self.element,me.className+'switch-handle').forEach(function(item){
 				item.setAttribute('style','transform:translate(0,0);')
 				self.active=false;
-				//self.callBack(self);
 			})
 		}
+		//执行传递过来的回调函数
+		self.callBack(self);
 	}
 	_switch.prototype.on=function(){
 		var self=this;
-		console.log(this)
 		if(!me.hasClass(self.element,me.className+"switch-active")){
 			//添加active类
 			me.addClass(self.element,me.className+"switch-active")
 			me.children(self.element,me.className+'switch-handle').forEach(function(item){
 				item.setAttribute('style','transform:translate('+(self.width-30)+'px,0);')
 				self.active=true;
-				//self.callBack(self);
 			})
 		}
+		//执行传递过来的回调函数
+		self.callBack(self);
 		
 	}
 	_switch.prototype.initEvent=function(){
@@ -63,24 +65,29 @@ NewUI.prototype.getSwitch=function(name){
 		this.element.addEventListener("mousedown",function(){
 			if(self.active){
 				self.off();
-				//console.log(this)
 			}else{
 				self.on()
 			}
 		})
 	}
-	//switch状态改变回调
+	//switch状态改变时的回调函数
 	_switch.prototype.toggle=function(fn){
 		if(fn){
-			console.log(this)
+			this.callBack=fn;
 		}
 	}
-	if(name && name.indexOf("#")>=0){
-		return new _switch(document.querySelector(name));
+	if(me.domName && me.domName.indexOf("#")>=0){
+		return new _switch(document.querySelector(me.domName));
 	}
 	else{
 		var _switchArry=[];
-		me.getByClassName('switch').forEach(function(item,index){
+		var switchs;
+		if(!me.domName){
+			switchs=me.getByClassName('switch');
+		}else{
+			switchs=document.querySelectorAll(me.domName);
+		}
+		switchs.forEach(function(item,index){
 			_switchArry.push(new _switch(item))
 		})
 		return _switchArry;
