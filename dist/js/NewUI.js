@@ -1,6 +1,5 @@
-var NewUI=function(domName){
-	this.domName=domName;
-	this.init()
+var NewUI=function(config){
+	this.init(config)
 }
 NewUI.prototype.extend=function(){ //from jquery2
 			var options, name, src, copy, copyIsArray, clone,
@@ -55,7 +54,7 @@ NewUI.prototype.extend=function(){ //from jquery2
 
 			return target;
 }
-NewUI.prototype.getById=function(name){
+NewUI.prototype.getById=function(){
 	return document.querySelector(name);
 }
 NewUI.prototype.getByClassName=function(className){
@@ -109,9 +108,10 @@ NewUI.prototype.children=function(parent,childName){
 }
 NewUI.prototype.init=function (config) {
 	//初始化NewUI
-	var defaultConfig={
+	this.defaultConfig={
 		//默认初始化属性
 	}
+	this.extend(this.defaultConfig,config);
 	//NewUI默认属性
 	this.namaspace='NewUI';
 	this.className=this.namaspace+'-';
@@ -120,7 +120,7 @@ NewUI.prototype.init=function (config) {
 }
 
 //获取switch对象
-NewUI.prototype.getSwitch=function(){
+NewUI.prototype.getSwitch=function(domName){
 	var me=this;
 	var _switch=function(dom){
 		if(!dom){
@@ -196,16 +196,19 @@ NewUI.prototype.getSwitch=function(){
 			this.callBack=fn;
 		}
 	}
-	if(me.domName && me.domName.indexOf("#")>=0){
-		return new _switch(document.querySelector(me.domName));
+	_switch.prototype.getStatu=function(){
+		return this.active;
+	}
+	if(domName && domName.indexOf("#")>=0){
+		return new _switch(document.querySelector(domName));
 	}
 	else{
 		var _switchArry=[];
 		var switchs;
-		if(!me.domName){
+		if(!domName){
 			switchs=me.getByClassName('switch');
 		}else{
-			switchs=document.querySelectorAll(me.domName);
+			switchs=document.querySelectorAll(domName);
 		}
 		switchs.forEach(function(item,index){
 			_switchArry.push(new _switch(item))

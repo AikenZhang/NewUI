@@ -1,6 +1,5 @@
-var NewUI=function(domName){
-	this.domName=domName;
-	this.init()
+var NewUI=function(config){
+	this.init(config)
 }
 NewUI.prototype.extend=function(){ //from jquery2
 			var options, name, src, copy, copyIsArray, clone,
@@ -55,7 +54,7 @@ NewUI.prototype.extend=function(){ //from jquery2
 
 			return target;
 }
-NewUI.prototype.getById=function(name){
+NewUI.prototype.getById=function(){
 	return document.querySelector(name);
 }
 NewUI.prototype.getByClassName=function(className){

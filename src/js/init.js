@@ -1,8 +1,9 @@
 NewUI.prototype.init=function (config) {
 	//初始化NewUI
-	var defaultConfig={
+	this.defaultConfig={
 		//默认初始化属性
 	}
+	this.extend(this.defaultConfig,config);
 	//NewUI默认属性
 	this.namaspace='NewUI';
 	this.className=this.namaspace+'-';

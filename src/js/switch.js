@@ -1,6 +1,6 @@
 
 //获取switch对象
-NewUI.prototype.getSwitch=function(){
+NewUI.prototype.getSwitch=function(domName){
 	var me=this;
 	var _switch=function(dom){
 		if(!dom){
@@ -76,16 +76,19 @@ NewUI.prototype.getSwitch=function(){
 			this.callBack=fn;
 		}
 	}
-	if(me.domName && me.domName.indexOf("#")>=0){
-		return new _switch(document.querySelector(me.domName));
+	_switch.prototype.getStatu=function(){
+		return this.active;
+	}
+	if(domName && domName.indexOf("#")>=0){
+		return new _switch(document.querySelector(domName));
 	}
 	else{
 		var _switchArry=[];
 		var switchs;
-		if(!me.domName){
+		if(!domName){
 			switchs=me.getByClassName('switch');
 		}else{
-			switchs=document.querySelectorAll(me.domName);
+			switchs=document.querySelectorAll(domName);
 		}
 		switchs.forEach(function(item,index){
 			_switchArry.push(new _switch(item))

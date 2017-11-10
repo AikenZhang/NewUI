@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 var beginUrl="./",
 	  lessUrl=beginUrl+'src/less/*',
 	  cssUrl=beginUrl+'src/css/',
-    jsUrl=beginUrl+'src/js/*',
+    jsUrl=beginUrl+'src/js/*.js',
     distCssUrl=beginUrl+'dist/css/',
     distJsUrl=beginUrl+'dist/js/';
 //编译less

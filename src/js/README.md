@@ -90,5 +90,9 @@ toggle(fn)  switch开关事件
 	Parameters
 		fn    事件
 
+getStatu()  获取开关状态
+
+	Returns
+    	boolean   开关状态
 
 
