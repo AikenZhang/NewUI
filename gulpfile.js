@@ -1,7 +1,8 @@
 var gulp = require('gulp'),
 	  path = require('path'),
 	  less = require('gulp-less'),
-    gulpConcat=require('gulp-concat');
+    gulpConcat=require('gulp-concat'),
+    uglify=require("gulp-uglify");
 
 //项目目录
 var beginUrl="./",
@@ -19,10 +20,11 @@ gulp.task('less', function () {
     .pipe(gulp.dest(cssUrl));
 });
 
-//合并js
+//合并压缩js
 gulp.task('conCatJs',function(){
   return gulp.src(jsUrl)
          .pipe(gulpConcat('NewUI.js'))
+         //.pipe(uglify())
          .pipe(gulp.dest(distJsUrl));
 })
 
@@ -31,6 +33,7 @@ gulp.task('watch',function(){
   gulp.watch(lessUrl,['less']);
   gulp.watch(jsUrl,['conCatJs']);
 })
+
 
 //默认任务
 gulp.task('default',["less","conCatJs","watch"], function() {

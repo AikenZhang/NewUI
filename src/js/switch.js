@@ -76,7 +76,7 @@ NewUI.prototype.getSwitch=function(domName){
 			this.callBack=fn;
 		}
 	}
-	_switch.prototype.getStatu=function(){
+	_switch.prototype.getStatus=function(){
 		return this.active;
 	}
 	if(domName && domName.indexOf("#")>=0){

@@ -8,33 +8,28 @@
 </head>
 <body>
 	<h1>switch按钮</h1>
-	<div class="NewUI-switch aa" style="width:100px;">
+	<div class="NewUI-switch aa">
 		<div class="NewUI-switch-handle"></div>
 	</div>
-		<div class="NewUI-switch">
-		<div class="NewUI-switch-handle"></div>
-	</div>
+	<h1>input输入框</h1>
+	<div class="NewUI-form">
+		<div class="NewUI-form-row">
+			<label class="NewUI-form-name">用户名:</label>
+			<input type="text" name="" class="NewUI-form-input" placeholder="请输入用户名">
+			<i class="fa fa-times-circle"></i>
 		</div>
-		<div class="NewUI-switch">
-		<div class="NewUI-switch-handle"></div>
-	</div>
+		<div class="NewUI-form-row">
+			<label class="NewUI-form-name">密码:</label>
+			<input type="password" class="NewUI-form-input" name="" placeholder="请输入密码">
+			<i class="fa fa-eye"></i>
 		</div>
-		<div class="NewUI-switch">
-		<div class="NewUI-switch-handle"></div>
 	</div>
-		</div>
-		<div class="NewUI-switch">
-		<div class="NewUI-switch-handle"></div>
-	</div>
-	
-
 <script type="text/javascript" src="../../dist/js/NewUI.js"></script>
 <script type="text/javascript">
-var s=new NewUI().getSwitch('.aa');
-	// s[1].toggle(function(a){
-	// 	console.log(a.getStatu())
-	// });
-	//console.log(document.querySelectorAll(".aa"))
+var s=new NewUI();
+	s.getSwitch(".aa")[0].toggle(function(res){
+		console.log(res.getStatus())
+	})
 </script>
 </body>
 </html>

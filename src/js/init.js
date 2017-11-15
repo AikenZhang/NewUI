@@ -9,4 +9,5 @@ NewUI.prototype.init=function (config) {
 	this.className=this.namaspace+'-';
 	//一些组件的默认属性
 	this.itemsConfig={};
+	this.getInput().init();
 }

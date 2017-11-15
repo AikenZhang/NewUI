@@ -106,3 +106,7 @@ NewUI.prototype.children=function(parent,childName){
 	})
 	return childArry;
 }
+NewUI.prototype.prev=function(dom){
+	while((dom=dom.previousSibling)&& dom.nodeType!==1){}
+    return dom;
+}

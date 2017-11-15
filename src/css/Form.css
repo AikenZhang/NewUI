@@ -1,3 +1,4 @@
+@import "../Iconfont/css/font-awesome.css";
 .NewUI-switch {
   position: relative;
   display: block;
@@ -52,4 +53,33 @@
   left: 15px;
   content: 'ON';
   color: #fff;
+}
+.NewUI-form-row {
+  display: flex;
+  justify-content: space-start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 250px;
+  height: 30px;
+  border-bottom: 1px solid #f2f2f2;
+}
+.NewUI-form-name {
+  flex: 1;
+}
+.NewUI-form-input {
+  flex: 3;
+}
+.NewUI-form-row > * {
+  margin-right: 5px;
+}
+.NewUI-active {
+  color: #007aff;
+}
+input[type='text'],
+input[type='password'] {
+  border: 0;
+  width: 140px;
+  outline: 0;
+  font-size: 16px;
 }

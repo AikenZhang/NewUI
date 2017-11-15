@@ -1,5 +1,6 @@
 @NewUI_switch_width:74px;
 @NewUI_switch_height:30px;
+@import "../Iconfont/css/font-awesome.css";
 .NewUI-switch
 {
     position: relative;
@@ -68,8 +69,38 @@
 {
     right: auto;
     left: 15px;
-
     content: 'ON';
-
     color: #fff;
+}
+//input样式
+.NewUI-form{
+    
+}
+.NewUI-form-row{
+    display: flex;
+    justify-content:space-start;
+    align-items:center;
+    margin:0;
+    padding: 0;
+    width:250px;
+    height:30px;
+    border-bottom:1px solid #f2f2f2;
+}
+.NewUI-form-name{
+    flex:1
+}
+.NewUI-form-input{
+    flex:3
+}
+.NewUI-form-row>*{
+    margin-right: 5px;
+}
+.NewUI-active{
+    color:#007aff;
+}
+input[type='text'],input[type='password']{
+  border:0;
+  width:140px;
+  outline:0;
+  font-size:16px;
 }
