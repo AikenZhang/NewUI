@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>组件</title>
+	<link rel="stylesheet" type="text/css" href="../css/Package.css">
+</head>
+<body>
+	<h1>进度条</h1>
+	<div class="NewUI-Progressbar" id="prg" data-value="0%" title="ss">
+		<span></span>
+	</div>
+	<div id="a">
+		<span class="b"></span>
+		<span class="b"></span>
+		<span class="b"></span>
+		<span class="b"></span>
+		<span class="b"></span>
+		<p></p>
+	</div>
+<script type="text/javascript" src="../../dist/js/NewUI.js"></script>
+
+	<script type="text/javascript">
+		var s=new NewUI();
+		var prg=s.getProgres("#prg");
+		var a=10;
+		setInterval(function(){
+			prg.setValue(a);
+			a++;
+		},1000)
+		console.log(s.children(document.querySelector("#a"),"p"));
+	</script>
+</body>
+</html>

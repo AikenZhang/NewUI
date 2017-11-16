@@ -99,8 +99,15 @@ NewUI.prototype.children=function(parent,childName){
 	}
 	children.forEach(function(item){
 		if(item.nodeType===1){
-			if(item.getAttribute("class").indexOf(childName)>=0){
-				return childArry.push(item);
+			if(childName.indexOf(".")>=0){
+				if(item.getAttribute("class").indexOf(childName.replace(".",""))>=0){
+					childArry.push(item);
+				}
+			}
+			else{
+				if(item.tagName.toLowerCase()==childName){
+					childArry.push(item)
+				}
 			}
 		}
 	})
@@ -109,4 +116,13 @@ NewUI.prototype.children=function(parent,childName){
 NewUI.prototype.prev=function(dom){
 	while((dom=dom.previousSibling)&& dom.nodeType!==1){}
     return dom;
+}
+NewUI.prototype.getElement=function(elem){
+	if(elem){
+		if(elem.indexOf("#")>=0){
+			return document.querySelector(elem);
+		}else{
+			return document.querySelectorAll(elem);
+		}
+	}
 }

@@ -99,8 +99,15 @@ NewUI.prototype.children=function(parent,childName){
 	}
 	children.forEach(function(item){
 		if(item.nodeType===1){
-			if(item.getAttribute("class").indexOf(childName)>=0){
-				return childArry.push(item);
+			if(childName.indexOf(".")>=0){
+				if(item.getAttribute("class").indexOf(childName.replace(".",""))>=0){
+					childArry.push(item);
+				}
+			}
+			else{
+				if(item.tagName.toLowerCase()==childName){
+					childArry.push(item)
+				}
 			}
 		}
 	})
@@ -109,6 +116,32 @@ NewUI.prototype.children=function(parent,childName){
 NewUI.prototype.prev=function(dom){
 	while((dom=dom.previousSibling)&& dom.nodeType!==1){}
     return dom;
+}
+NewUI.prototype.getElement=function(elem){
+	if(elem){
+		if(elem.indexOf("#")>=0){
+			return document.querySelector(elem);
+		}else{
+			return document.querySelectorAll(elem);
+		}
+	}
+}
+NewUI.prototype.getProgres=function(elem){
+	var me=this;
+	var progres=function(){
+		this.element=elem?me.getElement(elem):me.getElement("."+me.className+"Progressbar")[0];
+	}
+	progres.prototype.setValue=function(val){
+		var sp=me.children(this.element,"span")[0];
+		if(val>=0 && val<=100){
+			sp.style="width:"+val+"%;"
+			this.element.setAttribute("data-value",val+"%");
+		}
+		else{
+			console.warn("Progressbar 设置数值在0～100之间");
+		}
+	}
+	return new progres;
 }
 NewUI.prototype.init=function (config) {
 	//初始化NewUI
@@ -123,12 +156,14 @@ NewUI.prototype.init=function (config) {
 	this.itemsConfig={};
 	this.getInput().init();
 }
-NewUI.prototype.getInput=function(){
+NewUI.prototype.getInput=function(elem){
 	var me=this;
 	var input=function(){
 		this.password=null;
+		this.element=elem?document.querySelectorAll(elem):document.querySelectorAll("input[type='text']");
 	}
 	input.prototype.init=function(){
+		//添加清除和显示密码功能
 		var clear=document.querySelectorAll(".fa-times-circle"),
 			eye=document.querySelectorAll('.fa-eye');
 			clear.forEach(function(item,index){
@@ -154,7 +189,33 @@ NewUI.prototype.getInput=function(){
 					}
 				})
 			})
+		//添加正则匹配功能
+		this.element.forEach(function(item,index){
+			item.addEventListener("blur",function(){
+				var rex=this.getAttribute("data-Rex"),
+			    	rexText=this.getAttribute("data-RexText")||"输入错误",
+			    	value=this.value;
+			    if(rex && !new RegExp(rex).test(value)){
+			    	this.setAttribute("style","background:#f2f2f2;border:1px solid #f00 !important;");
+			    }else{
+			    	this.setAttribute("style","")
+			    }
+			})
 			
+		})
+	}
+	input.prototype.setDisable=function(b){
+		if(!b){
+			this.element.forEach(function(item,index){
+				item.setAttribute("disabled",false);
+				item.setAttribute("style","background:#f2f2f2;");
+			})
+		}else{
+			this.element.forEach(function(item,index){
+				item.setAttribute("disabled",true);
+				item.setAttribute("style","background:none;");
+			})
+		}
 	}
 	return new input;
 }

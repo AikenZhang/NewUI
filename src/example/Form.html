@@ -12,17 +12,20 @@
 		<div class="NewUI-switch-handle"></div>
 	</div>
 	<h1>input输入框</h1>
+	<h3>登陆框</h3>
 	<div class="NewUI-form">
 		<div class="NewUI-form-row">
-			<label class="NewUI-form-name">用户名:</label>
-			<input type="text" name="" class="NewUI-form-input" placeholder="请输入用户名">
+			<label class="NewUI-login-name">用户名:</label>
+			<input type="text" name="" class="NewUI-login-input" style="sdf" placeholder="请输入用户名">
 			<i class="fa fa-times-circle"></i>
 		</div>
 		<div class="NewUI-form-row">
-			<label class="NewUI-form-name">密码:</label>
-			<input type="password" class="NewUI-form-input" name="" placeholder="请输入密码">
+			<label class="NewUI-login-name">密码:</label>
+			<input type="password" class="NewUI-login-input" name="" placeholder="请输入密码">
 			<i class="fa fa-eye"></i>
 		</div>
+		<h3>普通框</h3>
+		<input type="text" name="" placeholder="" >
 	</div>
 <script type="text/javascript" src="../../dist/js/NewUI.js"></script>
 <script type="text/javascript">
@@ -30,6 +33,7 @@ var s=new NewUI();
 	s.getSwitch(".aa")[0].toggle(function(res){
 		console.log(res.getStatus())
 	})
+
 </script>
 </body>
 </html>
