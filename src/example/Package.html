@@ -9,25 +9,22 @@
 	<div class="NewUI-Progressbar" id="prg" data-value="0%" title="ss">
 		<span></span>
 	</div>
-	<div id="a">
-		<span class="b"></span>
-		<span class="b"></span>
-		<span class="b"></span>
-		<span class="b"></span>
-		<span class="b"></span>
-		<p></p>
+	<h2>滑块</h2>
+	<div class="NewUI-input-range">
+		<label>Range</label>
+		<input type="range" min="0" max="100">
 	</div>
 <script type="text/javascript" src="../../dist/js/NewUI.js"></script>
 
 	<script type="text/javascript">
 		var s=new NewUI();
 		var prg=s.getProgres("#prg");
-		var a=10;
-		setInterval(function(){
-			prg.setValue(a);
-			a++;
-		},1000)
-		console.log(s.children(document.querySelector("#a"),"p"));
+		prg.setValue(10);
+		s.getRange().change(function(me){
+			console.log(me.value)
+		})
+		s.getRange().setDisable(true);
+		s.getRange().setDisable(false);
 	</script>
 </body>
 </html>

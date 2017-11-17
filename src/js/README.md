@@ -59,6 +59,7 @@ children（parent,childName）判断是否包含某个子节点
 		Boolean
 
 getSwitch（）获取switch对象
+getInput()   获取Input对象
 
 #switch  开关按钮  方法
 
@@ -95,4 +96,16 @@ getStatu()  获取开关状态
 	Returns
     	boolean   开关状态
 
+#Input 输入框 方法
 
+setDisable(boolean)  禁用
+
+	Parameters
+		boolean  true/false
+
+#Progressbar  进度条 方法
+
+setValue()  设置进度
+
+	Parameters
+	    number   数值  0～100
