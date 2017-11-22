@@ -24,8 +24,7 @@ gulp.task('less', function () {
 gulp.task('conCatJs',function(){
   return gulp.src(jsUrl)
          .pipe(gulpConcat('NewUI.js'))
-         //.pipe(uglify())
-         .pipe(gulp.dest(distJsUrl));
+         .pipe(gulp.dest(distJsUrl))
 })
 
 // 监控

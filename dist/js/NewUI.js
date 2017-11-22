@@ -1,3 +1,59 @@
+NewUI.prototype.getGrid=function(elem){
+	var me=this;
+	/*<div class="NewUI-Grid-tfoot">
+			<div class="NewUI-Grid-Page">
+				<div class="NewUI-Grid-PageSize">
+					<label>每页</label>
+					<select class="NewUI-Grid-PageSize">
+						<option value="10">10</option>
+						<option value="100">100</option>
+						<option value="1000">1000</option>
+						<option value="10000">10000</option>
+					</select>
+					<label>条</label>
+				</div>
+				<div class="NewUI-Grid-Goto">
+					<div class="NewUI-Grid-Goto-left">
+						<i class="fa fa-angle-double-left"></i>
+						<i class="fa fa-angle-left"></i>
+					</div>
+					<div class="NewUI-Grid-Goto-content">
+						<label>第</label>
+						<input type="text" name="ts" style="width:50px;">
+						<label>页</label>
+						<label class="NewUI-Grid-Goto-pageAll">共0页</label>
+					</div>
+					<div class="NewUI-Grid-Goto-right">
+						<i class="fa fa-angle-double-right"></i>
+						<i class="fa fa-angle-right"></i>
+					</div>
+				</div>
+				<div class="NewUI-Grid-refresh">
+					<i class="fa fa-refresh"></i>
+				</div>
+			</div>
+			<div class="NewUI-Grid-detail">
+				<label>显示</label>
+				<label class="NewUI-Grid-detail-show">-</label>
+				<label>共</label>
+				<label class="NewUI-Grid-detail-number">0</label>
+				<label>条</label>
+			</div>
+		</div>*/
+	var grid=function(){
+		this.element=elem?me.getElement(elem):me.getElement("."+me.className+"Grid")[0];
+		this.config={
+			isPage:false,
+			pageSize:[50,500,5000],
+			firstPage:0,
+			refresh:true
+		};
+	}
+	Grid.init=function(){
+		console.log(this);
+	}
+	return new grid;
+}
 var NewUI=function(config){
 	this.init(config)
 }
@@ -125,6 +181,34 @@ NewUI.prototype.getElement=function(elem){
 			return document.querySelectorAll(elem);
 		}
 	}
+}
+NewUI.prototype.template=function(){
+    var
+        fn,
+        match,
+        code = ['var r=[];\nvar _html = function (str) { return str.replace(/&/g, \'&amp;\').replace(/"/g, \'&quot;\').replace(/\'/g, \'&#39;\').replace(/</g, \'&lt;\').replace(/>/g, \'&gt;\'); };'],
+        re = /\{\s*([a-zA-Z\.\_0-9()]+)(\s*\|\s*safe)?\s*\}/m,
+        addLine = function (text) {
+            code.push('r.push(\'' + text.replace(/\'/g, '\\\'').replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '\');');
+        };
+    while (match = re.exec(tpl)) {
+        if (match.index > 0) {
+            addLine(tpl.slice(0, match.index));
+        }
+        if (match[2]) {
+            code.push('r.push(String(this.' + match[1] + '));');
+        }
+        else {
+            code.push('r.push(_html(String(this.' + match[1] + ')));');
+        }
+        tpl = tpl.substring(match.index + match[0].length);
+    }
+    addLine(tpl);
+    code.push('return r.join(\'\');');
+    fn = new Function(code.join('\n'));
+    this.render = function (model) {
+        return fn.apply(model);
+    };
 }
 NewUI.prototype.getProgres=function(elem){
 	var me=this;

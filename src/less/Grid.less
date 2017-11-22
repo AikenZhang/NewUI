@@ -1,0 +1,114 @@
+.NewUI-Grid{
+	border:1px solid #e6ebf5;
+	width:100%;
+	position: relative;
+	font-size: 14px;
+}
+.NewUI-Grid-thead,.NewUI-Grid-tbody{
+	border-bottom: 1px solid #e6ebf5;
+}
+.NewUI-Grid-thead,.NewUI-Grid-tbody,.NewUI-Grid-tfoot{
+	width:96%;
+	margin:0 2%;
+}
+.NewUI-Grid-thead{
+	position: absolute;
+	top:0;
+	height:33px;
+	display: -webkit-flex;
+	display: flex;
+}
+.NewUI-Grid-thead span{
+	line-height: 33px;
+	text-align: left;
+	font-size:16px;
+	font-weight: 500;
+	min-width:100px;
+	border-right: 1px solid #e6ebf5;
+	padding-left: 5px;
+}
+.NewUI-Grid-tbody{
+	position: absolute;
+	display: block;
+	top:36px;
+	bottom:36px;
+}
+.NewUI-Grid-tbody ul,.NewUI-Grid-tbody li{
+	margin:0;
+	padding:0;
+}
+.NewUI-Grid-tbody ul{
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+.NewUI-Grid-tbody li{
+	display: -webkit-flex;
+	display: flex;
+	height:30px;
+	line-height: 30px;
+	width: 100%;
+	border-bottom: 1px solid #e6ebf5;
+	-webkit-transition:background-color .3s ease-in-out;
+			transition:background-color .3s ease-in-out
+}
+.NewUI-Grid-tbody li:hover{
+	background-color: #EAF2F8;
+}
+.NewUI-Grid-tbody li span{
+	padding:0 3px;
+	min-width: 100px;
+	text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space:nowrap; 
+}
+.NewUI-Grid-tfoot{
+	position: absolute;
+	overflow: auto;
+	bottom:0;
+	height: 36px;
+	line-height: 36px;
+}
+.NewUI-Grid-Page{
+	float: left;
+	display: -webkit-flex;
+	display: flex;
+}
+.NewUI-Grid-detail{
+	float:right;
+}
+.NewUI-Grid-Goto{
+	position: relative;
+	display:-webkit-flex;
+	display: flex;
+	width:240px;
+	justify-content:space-between;
+	margin-left:15px;
+}
+.NewUI-Grid-Goto-left,.NewUI-Grid-Goto-right,.NewUI-Grid-Goto-content,.NewUI-Grid-refresh{
+	position: relative;
+}
+.NewUI-Grid-Goto-content input{
+	border-radius: 3px;
+	outline:0;
+	border:1px solid #d2d2d2;
+}
+.NewUI-Grid-Goto:after,.NewUI-Grid-Goto-left:after,.NewUI-Grid-Goto-right:after,.NewUI-Grid-Goto-content:after,.NewUI-Grid-refresh:after{
+	position: absolute;
+	content:"";
+	height:20px;
+	left:-8px;
+	top:8px;
+	width:1px;
+	border-left:1px solid #e6ebf5;
+}
+.NewUI-Grid-refresh{
+	margin-left: 15px;
+}
+.NewUI-Grid-Goto-left i,.NewUI-Grid-Goto-right i,.NewUI-Grid-refresh i{
+	display: inline-block;
+	width:15px;
+	cursor:pointer;
+	font-size:16px;
+}
