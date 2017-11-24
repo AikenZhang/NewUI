@@ -39,7 +39,8 @@
   overflow: auto;
   padding: 0;
 }
-.NewUI-Grid-tbody li {
+.NewUI-Grid-tbody li,
+.NewUI-Grid-tbody ul {
   margin: 0;
   padding: 0;
 }

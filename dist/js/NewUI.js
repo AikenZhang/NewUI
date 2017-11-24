@@ -298,6 +298,7 @@ NewUI.prototype.attr=function(){
 }
 NewUI.prototype.getGrid=function(elem){
 	var me=this;
+	var a=[];
 	var grid=function(){
 		this.element=elem?me.getElement(elem):me.getElement("."+me.className+"Grid")[0];
 		this.config={
@@ -309,7 +310,13 @@ NewUI.prototype.getGrid=function(elem){
 		};
 		this.columns=[];
 		this._config={
-			domId:{}
+			domId:{},
+			pageSize:this.config.pageSize[0],
+			url:"",//缓存访问地址
+			param:"",//缓存请求参数
+			pageNumber:1,
+			input:null//缓存input(页数),
+			pageAll:0,//缓存总页数
 		};
 	}
 	grid.prototype.init=function(con){
@@ -320,11 +327,12 @@ NewUI.prototype.getGrid=function(elem){
 		//渲染表头
 		this._thead();
 		//渲染主体
-		
 		this._tfoot();
-		this._tbody([
-			{name:"张广华",sex:"男",age:23,index:1}
-			])
+
+		for(var i=0;i<5000;i++){
+			a.push({name:"张广华",sex:"男",age:23,index:1})
+		}
+		this._tbody(a)
 		}
 	//表头渲染方法
 	grid.prototype._thead=function(){
@@ -352,7 +360,8 @@ NewUI.prototype.getGrid=function(elem){
 	//渲染主体
 	grid.prototype._tbody=function(dataLsit){
 		var self=this,
-		dataLsit=dataLsit || [];
+		dataLsit=dataLsit || [],
+		tbody=null;
 		function threwList(data){
 			var list=document.createElement("li");
 			self.columns.forEach(function(a,b){
@@ -381,7 +390,10 @@ NewUI.prototype.getGrid=function(elem){
 			})
 			return list;
 		}
-		var tbody=document.createElement("ul");
+		
+		if(!self._config.domId.tbodyId){
+			var	ul=document.createElement("ul");
+			tbody=document.createElement("div");
 			tbodyId="Grid-tbody-"+new Date().getTime();
 			self._config.domId.tbodyId=tbodyId;
 			me.attr(tbody,{
@@ -389,12 +401,18 @@ NewUI.prototype.getGrid=function(elem){
 				id:tbodyId,
 				style:self.config.isPage?"":"bottom:0;border:0;"
 			})
-			dataLsit.forEach(function(item,index){
-				tbody.append(threwList(item));
-				
-			})
-
 			this.element.append(tbody);
+			
+		}else{
+			var ul=document.createElement("ul");
+			tbody=document.querySelector("#"+self._config.domId.tbodyId);
+			tbody.innerHTML="";
+		}
+		dataLsit.forEach(function(item,index){
+			ul.append(threwList(item));
+				
+		})
+		tbody.append(ul);		
 	}
 	//渲染tfoot
 	grid.prototype._tfoot=function(){
@@ -419,9 +437,9 @@ NewUI.prototype.getGrid=function(elem){
 				pre=tfoot.querySelector(".fa-angle-left"),
 				next=tfoot.querySelector(".fa-angle-right"),
 				lastPage=tfoot.querySelector(".fa-angle-double-right"),
-				page=tfoot.querySelector("input[type='text']"),
-				dataShow=tfoot.querySelector(".NewUI-Grid-detail-show"),
-				num=tfoot.querySelector(".NewUI-Grid-detail-number"),
+				self._config.input=page=tfoot.querySelector("input[type='text']"),
+				num=tfoot.querySelector("."+me.className+"Grid-detail-number"),
+				refresh=tfoot.querySelector(".fa-refresh"),
 				pageSize=tfoot.querySelector("select");
 				//绑定select组件change事件
 				pageSize.addEventListener("change",function(){
@@ -446,45 +464,72 @@ NewUI.prototype.getGrid=function(elem){
 				//绑定跳转具体页数事件
 				page.addEventListener("blur",function(){
 					self.loadPage(this.value);
+					self._config.pageNumber=this.value;
 				})
 				//绑定刷新事件
-				page.addEventListener("mousedown",function(){
+				refresh.addEventListener("mousedown",function(){
 					self.refresh()
 				})
 
 	}
 	//首页
 	grid.prototype.firstPage=function(){
-
+		this.loadPage(1)
 	}
 	//上一页
 	grid.prototype.pre=function(){
-
+		self._config.input.value=(parseInt(self._config.pageNumber)-1)
 	}
 	//下一页
 	grid.prototype.next=function(){
-
+		self._config.input.value=(parseInt(self._config.pageNumber)+1)
 	}
 	//尾页
 	grid.prototype.lastPage=function(){
-
+		this.loadPage(self._config.lastPage)
 	}
 	//刷新
 	grid.prototype.refresh=function(){
-
+		this._tbody(a);
 	}
 	//加载
 	grid.prototype.load=function(){
-
+		this.loadPage(1)
 	}
 	//跳转具体页数
 	grid.prototype.loadPage=function(page){
-
+		var self=this;
+		if(self._config.url){
+			me.ajax({
+				url:self._config.url,
+				data:{
+					param:self._config.param,
+					pageNumber:page,
+					startIndex:(parseInt(page)-1)*self._config.pageSize,
+					pageSize:self._config.pageSize
+				},
+			    beforeSend:function(){
+			    	me.loading(me.element).show();
+			    }
+			    success:function(res){
+			    	me.loading(me.element).hide();
+			    	if(res.IsSuccess){
+			    		self._tbody(res.Result);
+			    		self._setListDetail(page,self._config.pageSize)
+			    	}
+			    }
+			})
+		}
+		else{
+			console.warn("没有请求地址")
+		}
 	}
 	//每页显示多少
-	grid.prototype._getPageSize=function(){
-
+	grid.prototype._setListDetail=function(page,pageSize){
+		var show=document.querySelector("#"+self._config.domId.tfootId).querySelector(".NewUI-Grid-detail-show");
+		show.innerHTML=(parseInt(page)-1)*parseInt(pageSize)+1+"-"+(parseInt(page))*parseInt(pageSize)
 	}
+
 	return new grid;
 }
 NewUI.prototype.getProgres=function(elem){
