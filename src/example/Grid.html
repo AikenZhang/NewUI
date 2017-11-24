@@ -7,14 +7,13 @@
 <link rel="stylesheet" type="text/css" href="../Iconfont/css/font-awesome.css">
 <script type="text/javascript" src="../../dist/js/NewUI.js"></script>
 <body>
-	<div class="NewUI-Grid" style="height: 300px;">
+<!-- 	<div class="NewUI-Grid" style="height: 300px;">
 		<div class="NewUI-Grid-thead">
-			<span>姓名</span>
-			<span>姓名</span>
-			<span>姓名</span>
+			<span data-index="name">姓名</span>
+			<span data-index="age">姓名</span>
+			<span data-index="sex">姓名</span>
 		</div>
-		<div class="NewUI-Grid-tbody">
-			<ul>
+		<ul class="NewUI-Grid-tbody">
 				<li>
 					<span>23423432</span>
 					<span>23423432</span>
@@ -79,7 +78,6 @@
 					<span>23423432</span>
 				</li>
 			</ul>
-		</div>
 		<div class="NewUI-Grid-tfoot">
 			<div class="NewUI-Grid-Page">
 				<div class="NewUI-Grid-PageSize">
@@ -99,7 +97,7 @@
 					</div>
 					<div class="NewUI-Grid-Goto-content">
 						<label>第</label>
-						<input type="text" name="ts" style="width:50px;">
+						<input type="text" name="ts" autocomplete="off">
 						<label>页</label>
 						<label class="NewUI-Grid-Goto-pageAll">共0页</label>
 					</div>
@@ -120,10 +118,22 @@
 				<label>条</label>
 			</div>
 		</div>
+	</div> -->
+
+	<div class="NewUI-Grid" style="height: 300px;">
+
 	</div>
 	<script type="text/javascript">
-		var s=new NewUI();
-		s.getGrid().init();
+		var s=new NewUI(),
+			grid=s.getGrid();
+			grid.init({
+				config:{},
+				columns:[
+					{width:200,indexName:"姓名",index:"name"},
+					{width:100,indexName:"年龄",index:"age"},
+					{width:50,indexName:"性别",index:"sex"}
+				]
+			});
 	</script>
 </body>
 </html>

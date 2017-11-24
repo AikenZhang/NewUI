@@ -1,56 +1,191 @@
 NewUI.prototype.getGrid=function(elem){
 	var me=this;
-	/*<div class="NewUI-Grid-tfoot">
-			<div class="NewUI-Grid-Page">
-				<div class="NewUI-Grid-PageSize">
-					<label>每页</label>
-					<select class="NewUI-Grid-PageSize">
-						<option value="10">10</option>
-						<option value="100">100</option>
-						<option value="1000">1000</option>
-						<option value="10000">10000</option>
-					</select>
-					<label>条</label>
-				</div>
-				<div class="NewUI-Grid-Goto">
-					<div class="NewUI-Grid-Goto-left">
-						<i class="fa fa-angle-double-left"></i>
-						<i class="fa fa-angle-left"></i>
-					</div>
-					<div class="NewUI-Grid-Goto-content">
-						<label>第</label>
-						<input type="text" name="ts" style="width:50px;">
-						<label>页</label>
-						<label class="NewUI-Grid-Goto-pageAll">共0页</label>
-					</div>
-					<div class="NewUI-Grid-Goto-right">
-						<i class="fa fa-angle-double-right"></i>
-						<i class="fa fa-angle-right"></i>
-					</div>
-				</div>
-				<div class="NewUI-Grid-refresh">
-					<i class="fa fa-refresh"></i>
-				</div>
-			</div>
-			<div class="NewUI-Grid-detail">
-				<label>显示</label>
-				<label class="NewUI-Grid-detail-show">-</label>
-				<label>共</label>
-				<label class="NewUI-Grid-detail-number">0</label>
-				<label>条</label>
-			</div>
-		</div>*/
 	var grid=function(){
 		this.element=elem?me.getElement(elem):me.getElement("."+me.className+"Grid")[0];
 		this.config={
-			isPage:false,
+			isPage:true,
 			pageSize:[50,500,5000],
 			firstPage:0,
-			refresh:true
+			refresh:true,
+			toolTpl:true
+		};
+		this.columns=[];
+		this._config={
+			domId:{}
 		};
 	}
-	Grid.init=function(){
-		console.log(this);
+	grid.prototype.init=function(con){
+		//继承修改属性
+		me.extend(this.config,con.config);
+		//写入表头
+		me.extend(this.columns,con.columns)
+		//渲染表头
+		this._thead();
+		//渲染主体
+		
+		this._tfoot();
+		this._tbody([
+			{name:"张广华",sex:"男",age:23,index:1}
+			])
+		}
+	//表头渲染方法
+	grid.prototype._thead=function(){
+		var self=this;
+		var theadId="Grid-thead-"+new Date().getTime();
+		self._config.domId.theadId=theadId;
+		//添加序号
+		this.columns.unshift({width:50,indexName:"序号",index:"index"})
+		var thead=document.createElement("div");
+		me.attr(thead,{
+				class:me.className+"Grid-thead",
+				id:theadId
+			})
+		function trewSpan(width,indexName){
+			var span=document.createElement("span");
+			me.attr(span,"style","width:"+width+"px;");
+			span.innerHTML=indexName || "";
+			return span;
+		}
+		this.columns.forEach(function(item,index){
+			thead.append(trewSpan(item.width,item.indexName))
+		})
+		this.element.append(thead);
+	}
+	//渲染主体
+	grid.prototype._tbody=function(dataLsit){
+		var self=this,
+		dataLsit=dataLsit || [];
+		function threwList(data){
+			var list=document.createElement("li");
+			self.columns.forEach(function(a,b){
+				var span=document.createElement("span");
+				me.attr(span,"style","width:"+a.width+"px;");
+				span.innerHTML=data[a.index] || "";
+				//添加toolTpl
+				if(self.config.toolTpl){
+					var tool=document.createElement("span");
+					me.attr(tool,{
+						class:"NewUI-Grid-tool"
+					})
+					span.addEventListener("mouseover",function(e){
+						tool.innerHTML=this.innerHTML;
+						me.attr(tool,{
+							style:"left:"+(e.pageX+10)+"px;top:"+(e.pageY+15)+"px;"
+						})
+						document.querySelector("body").append(tool);
+					})
+					span.addEventListener("mouseout",function(e){
+						document.querySelector("body").removeChild(tool);
+					})
+				}
+				list.append(span);
+				span=null;
+			})
+			return list;
+		}
+		var tbody=document.createElement("ul");
+			tbodyId="Grid-tbody-"+new Date().getTime();
+			self._config.domId.tbodyId=tbodyId;
+			me.attr(tbody,{
+				class:me.className+"Grid-tbody",
+				id:tbodyId,
+				style:self.config.isPage?"":"bottom:0;border:0;"
+			})
+			dataLsit.forEach(function(item,index){
+				tbody.append(threwList(item));
+				
+			})
+
+			this.element.append(tbody);
+	}
+	//渲染tfoot
+	grid.prototype._tfoot=function(){
+		var self=this,
+			grid=this.element,
+			tfootId="Grid-tfoot-"+new Date().getTime();
+			self._config.domId.tfootId=tfootId;
+			//渲染模版
+			var tpl=new me.template(me.tpl('tfoot'));
+			var tfootHtml=tpl.render({
+					tfootId:tfootId,
+					pageSize:{
+						pageSize1:self.config.pageSize[0],
+						pageSize2:self.config.pageSize[1],
+						pageSize3:self.config.pageSize[2]
+					}
+				})
+			grid.innerHTML+=tfootHtml;
+			//依次实现按钮的功能
+			var tfoot=document.querySelector("#"+self._config.domId.tfootId),
+				firstPage=tfoot.querySelector(".fa-angle-double-left"),
+				pre=tfoot.querySelector(".fa-angle-left"),
+				next=tfoot.querySelector(".fa-angle-right"),
+				lastPage=tfoot.querySelector(".fa-angle-double-right"),
+				page=tfoot.querySelector("input[type='text']"),
+				dataShow=tfoot.querySelector(".NewUI-Grid-detail-show"),
+				num=tfoot.querySelector(".NewUI-Grid-detail-number"),
+				pageSize=tfoot.querySelector("select");
+				//绑定select组件change事件
+				pageSize.addEventListener("change",function(){
+					self._config.PageSize=this.value;
+				})
+				//绑定跳转首页事件
+				firstPage.addEventListener("mousedown",function(){
+					self.firstPage()
+				})
+				//绑定前一页事件
+				pre.addEventListener("mousedown",function(){
+					self.pre()
+				})
+				//绑定下一页事件
+				next.addEventListener("mousedown",function(){
+					self.next()
+				})
+				//绑定跳转尾页事件
+				lastPage.addEventListener("mouse",function(){
+					self.lastPage()
+				})
+				//绑定跳转具体页数事件
+				page.addEventListener("blur",function(){
+					self.loadPage(this.value);
+				})
+				//绑定刷新事件
+				page.addEventListener("mousedown",function(){
+					self.refresh()
+				})
+
+	}
+	//首页
+	grid.prototype.firstPage=function(){
+
+	}
+	//上一页
+	grid.prototype.pre=function(){
+
+	}
+	//下一页
+	grid.prototype.next=function(){
+
+	}
+	//尾页
+	grid.prototype.lastPage=function(){
+
+	}
+	//刷新
+	grid.prototype.refresh=function(){
+
+	}
+	//加载
+	grid.prototype.load=function(){
+
+	}
+	//跳转具体页数
+	grid.prototype.loadPage=function(page){
+
+	}
+	//每页显示多少
+	grid.prototype._getPageSize=function(){
+
 	}
 	return new grid;
 }

@@ -2,13 +2,14 @@ var gulp = require('gulp'),
 	  path = require('path'),
 	  less = require('gulp-less'),
     gulpConcat=require('gulp-concat'),
-    uglify=require("gulp-uglify");
+    uglify=require("gulp-uglify"),
+    rename = require('gulp-rename');
 
 //项目目录
 var beginUrl="./",
 	  lessUrl=beginUrl+'src/less/*',
 	  cssUrl=beginUrl+'src/css/',
-    jsUrl=beginUrl+'src/js/*.js',
+    jsUrl=beginUrl+'src/js',
     distCssUrl=beginUrl+'dist/css/',
     distJsUrl=beginUrl+'dist/js/';
 //编译less
@@ -22,15 +23,19 @@ gulp.task('less', function () {
 
 //合并压缩js
 gulp.task('conCatJs',function(){
-  return gulp.src(jsUrl)
+  return gulp.src([jsUrl+'/main/*.js',jsUrl+"/package/*.js"])
          .pipe(gulpConcat('NewUI.js'))
+         // .pipe(gulp.dest(distJsUrl))
+         //  .pipe(rename({suffix: '.min'}))   //rename压缩后的文件名
+         //  .pipe(uglify())    //压缩
          .pipe(gulp.dest(distJsUrl))
 })
 
 // 监控
 gulp.task('watch',function(){
   gulp.watch(lessUrl,['less']);
-  gulp.watch(jsUrl,['conCatJs']);
+  gulp.watch(jsUrl+"/main/*.js",['conCatJs']);
+  gulp.watch(jsUrl+"/package/*.js",['conCatJs']);
 })
 
 
