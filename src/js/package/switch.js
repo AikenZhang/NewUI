@@ -38,7 +38,7 @@ NewUI.prototype.getSwitch=function(domName){
 			//移除active 类
 			me.removeClass(self.element,me.className+"switch-active")
 			//按钮返回原处
-			me.children(self.element,me.className+'switch-handle').forEach(function(item){
+			me.children(self.element,"."+me.className+'switch-handle').forEach(function(item){
 				item.setAttribute('style','transform:translate(0,0);')
 				self.active=false;
 			})
@@ -51,7 +51,7 @@ NewUI.prototype.getSwitch=function(domName){
 		if(!me.hasClass(self.element,me.className+"switch-active")){
 			//添加active类
 			me.addClass(self.element,me.className+"switch-active")
-			me.children(self.element,me.className+'switch-handle').forEach(function(item){
+			me.children(self.element,"."+me.className+'switch-handle').forEach(function(item){
 				item.setAttribute('style','transform:translate('+(self.width-30)+'px,0);')
 				self.active=true;
 			})

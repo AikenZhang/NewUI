@@ -1,4 +1,4 @@
-/** @preserve Foo Bar */
+
 var NewUI=function(config){
 	this.init(config)
 }

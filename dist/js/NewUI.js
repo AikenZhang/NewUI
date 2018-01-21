@@ -1,4 +1,4 @@
-/** @preserve Foo Bar */
+
 var NewUI=function(config){
 	this.init(config)
 }
@@ -315,8 +315,8 @@ NewUI.prototype.getGrid=function(elem){
 			url:"",//缓存访问地址
 			param:"",//缓存请求参数
 			pageNumber:1,
-			input:null//缓存input(页数),
-			pageAll:0,//缓存总页数
+			input:null,//缓存input(页数),
+			pageAll:0//缓存总页数
 		};
 	}
 	grid.prototype.init=function(con){
@@ -363,31 +363,7 @@ NewUI.prototype.getGrid=function(elem){
 		dataLsit=dataLsit || [],
 		tbody=null;
 		function threwList(data){
-			var list=document.createElement("li");
-			self.columns.forEach(function(a,b){
-				var span=document.createElement("span");
-				me.attr(span,"style","width:"+a.width+"px;");
-				span.innerHTML=data[a.index] || "";
-				//添加toolTpl
-				if(self.config.toolTpl){
-					var tool=document.createElement("span");
-					me.attr(tool,{
-						class:"NewUI-Grid-tool"
-					})
-					span.addEventListener("mouseover",function(e){
-						tool.innerHTML=this.innerHTML;
-						me.attr(tool,{
-							style:"left:"+(e.pageX+10)+"px;top:"+(e.pageY+15)+"px;"
-						})
-						document.querySelector("body").append(tool);
-					})
-					span.addEventListener("mouseout",function(e){
-						document.querySelector("body").removeChild(tool);
-					})
-				}
-				list.append(span);
-				span=null;
-			})
+			
 			return list;
 		}
 		
@@ -408,8 +384,35 @@ NewUI.prototype.getGrid=function(elem){
 			tbody=document.querySelector("#"+self._config.domId.tbodyId);
 			tbody.innerHTML="";
 		}
-		dataLsit.forEach(function(item,index){
-			ul.append(threwList(item));
+		dataLsit.forEach(function(item){
+			var list=document.createElement("li");
+			self.columns.forEach(function(a){
+				var span=document.createElement("span");
+				me.attr(span,"style","width:"+a.width+"px;");
+				span.innerHTML=item[a.index] || "";
+				//添加toolTpl
+				if(self.config.toolTpl){
+					var tool=document.createElement("span");
+					me.attr(tool,{
+						class:"NewUI-Grid-tool"
+					})
+					span.addEventListener("mouseover",function(e){
+						tool.innerHTML=this.innerHTML;
+						me.attr(tool,{
+							style:"left:"+(e.pageX+10)+"px;top:"+(e.pageY+15)+"px;"
+						})
+						document.querySelector("body").append(tool);
+					})
+					span.addEventListener("mouseout",function(e){
+						document.querySelector("body").removeChild(tool);
+					})
+				}
+				list.append(span);
+				span=null;
+				
+			})
+			ul.append(list);
+			list=null;
 				
 		})
 		tbody.append(ul);		
@@ -437,7 +440,7 @@ NewUI.prototype.getGrid=function(elem){
 				pre=tfoot.querySelector(".fa-angle-left"),
 				next=tfoot.querySelector(".fa-angle-right"),
 				lastPage=tfoot.querySelector(".fa-angle-double-right"),
-				self._config.input=page=tfoot.querySelector("input[type='text']"),
+				page=tfoot.querySelector("input[type='text']"),
 				num=tfoot.querySelector("."+me.className+"Grid-detail-number"),
 				refresh=tfoot.querySelector(".fa-refresh"),
 				pageSize=tfoot.querySelector("select");
@@ -510,7 +513,7 @@ NewUI.prototype.getGrid=function(elem){
 				},
 			    beforeSend:function(){
 			    	me.loading(me.element).show();
-			    }
+			    },
 			    success:function(res){
 			    	me.loading(me.element).hide();
 			    	if(res.IsSuccess){
@@ -524,7 +527,7 @@ NewUI.prototype.getGrid=function(elem){
 			console.warn("没有请求地址")
 		}
 	}
-	//每页显示多少
+	// //每页显示多少
 	grid.prototype._setListDetail=function(page,pageSize){
 		var show=document.querySelector("#"+self._config.domId.tfootId).querySelector(".NewUI-Grid-detail-show");
 		show.innerHTML=(parseInt(page)-1)*parseInt(pageSize)+1+"-"+(parseInt(page))*parseInt(pageSize)
@@ -703,7 +706,7 @@ NewUI.prototype.getSwitch=function(domName){
 			//移除active 类
 			me.removeClass(self.element,me.className+"switch-active")
 			//按钮返回原处
-			me.children(self.element,me.className+'switch-handle').forEach(function(item){
+			me.children(self.element,"."+me.className+'switch-handle').forEach(function(item){
 				item.setAttribute('style','transform:translate(0,0);')
 				self.active=false;
 			})
@@ -716,7 +719,7 @@ NewUI.prototype.getSwitch=function(domName){
 		if(!me.hasClass(self.element,me.className+"switch-active")){
 			//添加active类
 			me.addClass(self.element,me.className+"switch-active")
-			me.children(self.element,me.className+'switch-handle').forEach(function(item){
+			me.children(self.element,"."+me.className+'switch-handle').forEach(function(item){
 				item.setAttribute('style','transform:translate('+(self.width-30)+'px,0);')
 				self.active=true;
 			})
